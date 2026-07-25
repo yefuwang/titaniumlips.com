@@ -1,0 +1,6 @@
+version: "2"
+
+stacks:
+  titaniumlips:
+    project_root: terraform
+    terraform_workflow_tool: OPEN_TOFU
