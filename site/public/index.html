@@ -8,20 +8,19 @@
       content="钛唇工作室主页，发布原创中文音乐、音乐视频与系列作品。"
     >
     <title>钛唇工作室 | Titan Lips Studio</title>
+    <link rel="preload" href="/assets/brand/stage-bg.jpg" as="image">
     <link rel="preload" href="/assets/brand/TitanLogo.png" as="image">
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
-    <div class="site-shell" aria-hidden="true"></div>
     <header class="site-header">
       <a class="brand-link" href="/" aria-label="钛唇工作室首页">
         <img src="/assets/brand/TitanLogo.png" alt="钛唇工作室" class="brand-mark">
         <span>钛唇工作室</span>
       </a>
       <nav class="top-nav" aria-label="主要导航">
-        <a href="#player-title">播放</a>
-        <a href="#series">系列</a>
-        <a href="#videos">音乐视频</a>
+        <a href="#series">作品系列</a>
+        <a href="#catalog">全部视频</a>
         <a href="#channels">频道</a>
       </nav>
     </header>
@@ -29,89 +28,43 @@
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">Original Chinese Music</p>
+          <p class="eyebrow">Titan Lips Studio</p>
           <h1 id="hero-title">钛唇工作室</h1>
-          <p class="hero-line">把末日、情歌和人间噪音唱成粉色金属。</p>
-          <div class="hero-actions" aria-label="频道链接">
-            <a href="#player-title">播放最新作品</a>
-            <a href="#videos">查看歌单</a>
+          <p class="hero-line">原创中文音乐视频。按主题收纳末日、黑色寓言、人间噪音和反差情歌。</p>
+          <div class="hero-actions">
+            <a href="#series">浏览作品系列</a>
+            <a href="#catalog">查看全部视频</a>
           </div>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="poster-plate">
-            <img src="/assets/brand/TitanLogo.png" alt="">
-          </div>
-          <div class="lyric-reel">
-            <span>安静的寄生虫</span>
-            <span>安静破蛹</span>
-            <span>末日同谋</span>
-            <span>挪威的黑暗森林</span>
-            <span>后来就算了</span>
-          </div>
+        <div class="hero-index" aria-label="作品概览">
+          <span>4 个系列</span>
+          <span>10 支视频</span>
+          <span>YouTube / Bilibili</span>
         </div>
       </section>
 
-      <section class="listen-panel" aria-labelledby="player-title">
-        <div class="section-heading">
-          <p class="eyebrow">Now Playing</p>
-          <h2 id="player-title">播放台</h2>
-        </div>
-
-        <div class="platform-row">
-          <p id="region-copy">正在选择适合你的播放平台。</p>
-          <div class="platform-toggle" role="group" aria-label="播放平台">
-            <button class="platform-button" type="button" data-platform="youtube">YouTube</button>
-            <button class="platform-button" type="button" data-platform="bilibili">Bilibili</button>
-          </div>
-        </div>
-
-        <div class="player-layout">
-          <div class="video-frame" id="video-frame">
-            <iframe
-              id="video-player"
-              title="音乐视频播放器"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            ></iframe>
-            <div class="player-fallback" id="player-fallback" hidden>
-              <p>这首歌的 Bilibili 嵌入链接还没有录入。</p>
-              <a href="https://space.bilibili.com/3706968275421396" rel="noreferrer" target="_blank">打开钛唇工作室 Bilibili 频道</a>
-            </div>
-          </div>
-          <div class="track-info">
-            <p class="series-label" id="active-series"></p>
-            <h3 id="active-title"></h3>
-            <p id="active-description"></p>
-            <div class="signal-meter" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div class="track-links">
-              <a id="youtube-link" rel="noreferrer" target="_blank">YouTube</a>
-              <a id="bilibili-link" rel="noreferrer" target="_blank">Bilibili</a>
-            </div>
-          </div>
+      <section class="control-strip" aria-label="播放平台">
+        <p id="region-copy">正在选择适合你的播放平台。</p>
+        <div class="platform-toggle" role="group" aria-label="播放平台">
+          <button class="platform-button" type="button" data-platform="youtube">YouTube</button>
+          <button class="platform-button" type="button" data-platform="bilibili">Bilibili</button>
         </div>
       </section>
 
       <section class="series-section" id="series" aria-labelledby="series-title">
         <div class="section-heading">
-          <p class="eyebrow">Series</p>
+          <p class="eyebrow">Series Shelves</p>
           <h2 id="series-title">作品系列</h2>
         </div>
-        <div class="series-grid" id="series-grid"></div>
+        <div class="series-shelves" id="series-shelves"></div>
       </section>
 
-      <section class="videos-section" id="videos" aria-labelledby="videos-title">
+      <section class="catalog-section" id="catalog" aria-labelledby="catalog-title">
         <div class="section-heading">
-          <p class="eyebrow">Catalog</p>
-          <h2 id="videos-title">全部视频</h2>
+          <p class="eyebrow">Video Index</p>
+          <h2 id="catalog-title">全部视频</h2>
         </div>
-        <div class="video-grid" id="video-grid"></div>
+        <div class="compact-list" id="compact-list"></div>
       </section>
 
       <section class="channels-section" id="channels" aria-labelledby="channels-title">

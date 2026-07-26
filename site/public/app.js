@@ -76,29 +76,34 @@ const videos = [
   },
 ];
 
-const seriesDescriptions = {
-  "末日系列": "废墟、寄生、破蛹与同谋。把末日当作情绪现场，也当作重生的入口。",
-  "黑色寓言": "带着童话外壳的暗色故事，走进森林，也走进人心的背面。",
-  "人间噪音": "生活、风雪、爱过和算了。把日常里的荒诞唱成旋律。",
-  "反差情歌": "甜、狠、好笑、刺痛。把情歌写到不太像情歌。",
+const seriesMeta = {
+  "末日系列": {
+    mood: "废墟 / 寄生 / 破蛹",
+    description: "把末日当作情绪现场，也当作重生的入口。",
+  },
+  "黑色寓言": {
+    mood: "森林 / 童话 / 暗面",
+    description: "带着童话外壳的暗色故事，走进森林，也走进人心背面。",
+  },
+  "人间噪音": {
+    mood: "生活 / 风雪 / 算了",
+    description: "把日常里的荒诞、疲惫和放手唱成旋律。",
+  },
+  "反差情歌": {
+    mood: "甜 / 狠 / 好笑",
+    description: "把情歌写到不太像情歌，越轻巧越刺痛。",
+  },
 };
 
 const state = {
   platform: "youtube",
-  activeIndex: 0,
+  openIndex: null,
 };
 
-const player = document.querySelector("#video-player");
-const fallback = document.querySelector("#player-fallback");
-const activeSeries = document.querySelector("#active-series");
-const activeTitle = document.querySelector("#active-title");
-const activeDescription = document.querySelector("#active-description");
-const youtubeLink = document.querySelector("#youtube-link");
-const bilibiliLink = document.querySelector("#bilibili-link");
 const platformButtons = [...document.querySelectorAll(".platform-button")];
 const regionCopy = document.querySelector("#region-copy");
-const seriesGrid = document.querySelector("#series-grid");
-const videoGrid = document.querySelector("#video-grid");
+const shelves = document.querySelector("#series-shelves");
+const compactList = document.querySelector("#compact-list");
 
 function youtubeEmbed(id) {
   return `https://www.youtube-nocookie.com/embed/${id}`;
@@ -116,9 +121,149 @@ function bilibiliWatch(bvid) {
   return bvid ? `https://www.bilibili.com/video/${bvid}` : channels.bilibili;
 }
 
+function thumbnail(video) {
+  return `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`;
+}
+
+function platformName() {
+  return state.platform === "bilibili" ? "Bilibili" : "YouTube";
+}
+
+function playerMarkup(video) {
+  const youtubeUrl = youtubeWatch(video.youtubeId);
+  const bilibiliUrl = bilibiliWatch(video.bvid);
+
+  if (state.platform === "bilibili" && !video.bvid) {
+    return `
+      <div class="inline-player">
+        <div class="player-fallback">
+          <p>这首歌的 Bilibili 嵌入链接还没有录入。</p>
+          <a href="${bilibiliUrl}" rel="noreferrer" target="_blank">打开 Bilibili 频道</a>
+          <a href="${youtubeUrl}" rel="noreferrer" target="_blank">在 YouTube 播放</a>
+        </div>
+      </div>
+    `;
+  }
+
+  const src = state.platform === "bilibili" ? bilibiliEmbed(video.bvid) : youtubeEmbed(video.youtubeId);
+  return `
+    <div class="inline-player">
+      <iframe
+        title="${video.title} 音乐视频"
+        loading="lazy"
+        src="${src}"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+      <div class="player-links">
+        <a href="${youtubeUrl}" rel="noreferrer" target="_blank">YouTube</a>
+        <a href="${bilibiliUrl}" rel="noreferrer" target="_blank">Bilibili</a>
+      </div>
+    </div>
+  `;
+}
+
+function cardMarkup(video, index) {
+  const isOpen = state.openIndex === index;
+  return `
+    <article class="video-card ${isOpen ? "is-open" : ""}" data-index="${index}">
+      <button class="video-cover" type="button" data-action="toggle" aria-expanded="${isOpen}">
+        <img src="${thumbnail(video)}" alt="">
+        <span class="cover-shade"></span>
+        <span class="play-chip">${isOpen ? "收起" : `用 ${platformName()} 播放`}</span>
+      </button>
+      <div class="video-body">
+        <p class="series-label">${video.series}</p>
+        <h3>${video.title}</h3>
+        <p>${video.description}</p>
+      </div>
+      ${isOpen ? playerMarkup(video) : ""}
+    </article>
+  `;
+}
+
+function groupedVideos() {
+  return videos.reduce((result, video, index) => {
+    result[video.series] = result[video.series] || [];
+    result[video.series].push({ video, index });
+    return result;
+  }, {});
+}
+
+function renderShelves() {
+  const groups = groupedVideos();
+  shelves.innerHTML = Object.entries(groups)
+    .map(([name, items]) => {
+      const meta = seriesMeta[name] || {
+        mood: "原创音乐视频",
+        description: "钛唇工作室原创音乐系列。",
+      };
+
+      return `
+        <section class="series-shelf" aria-labelledby="series-${name}">
+          <header class="shelf-header">
+            <div>
+              <p class="shelf-mood">${meta.mood}</p>
+              <h3 id="series-${name}">${name}</h3>
+            </div>
+            <p>${meta.description}</p>
+          </header>
+          <div class="video-row">
+            ${items.map(({ video, index }) => cardMarkup(video, index)).join("")}
+          </div>
+        </section>
+      `;
+    })
+    .join("");
+
+  bindVideoCards();
+}
+
+function renderCompactList() {
+  compactList.innerHTML = videos
+    .map(
+      (video, index) => `
+        <button class="compact-item" type="button" data-index="${index}">
+          <span>${video.series}</span>
+          <strong>${video.title}</strong>
+          <em>${video.description}</em>
+        </button>
+      `,
+    )
+    .join("");
+
+  compactList.querySelectorAll(".compact-item").forEach((item) => {
+    item.addEventListener("click", () => {
+      state.openIndex = Number(item.dataset.index);
+      renderShelves();
+      const card = document.querySelector(`.video-card[data-index="${state.openIndex}"]`);
+      card?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  });
+}
+
+function bindVideoCards() {
+  document.querySelectorAll("[data-action='toggle']").forEach((button) => {
+    button.addEventListener("click", () => {
+      const card = button.closest(".video-card");
+      const index = Number(card.dataset.index);
+      state.openIndex = state.openIndex === index ? null : index;
+      renderShelves();
+      if (state.openIndex !== null) {
+        document.querySelector(`.video-card[data-index="${index}"]`)?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }
+    });
+  });
+}
+
 function applyPlatform(platform, source = "manual") {
   state.platform = platform;
   localStorage.setItem("titaniumlips-platform", platform);
+
   platformButtons.forEach((button) => {
     button.classList.toggle("is-active", button.dataset.platform === platform);
   });
@@ -126,87 +271,13 @@ function applyPlatform(platform, source = "manual") {
   if (source === "geo") {
     regionCopy.textContent =
       platform === "bilibili"
-        ? "检测到中国大陆访问，已优先选择 Bilibili。"
-        : "检测到海外访问，已优先选择 YouTube。";
+        ? "检测到中国大陆访问，默认使用 Bilibili。"
+        : "检测到海外访问，默认使用 YouTube。";
   } else {
-    regionCopy.textContent = `当前播放平台：${platform === "bilibili" ? "Bilibili" : "YouTube"}。`;
+    regionCopy.textContent = `当前默认播放平台：${platformName()}。`;
   }
 
-  renderActiveVideo();
-}
-
-function renderActiveVideo() {
-  const video = videos[state.activeIndex];
-  activeSeries.textContent = video.series;
-  activeTitle.textContent = video.title;
-  activeDescription.textContent = video.description;
-  youtubeLink.href = youtubeWatch(video.youtubeId);
-  bilibiliLink.href = bilibiliWatch(video.bvid);
-
-  if (state.platform === "bilibili") {
-    if (video.bvid) {
-      player.hidden = false;
-      fallback.hidden = true;
-      player.src = bilibiliEmbed(video.bvid);
-    } else {
-      player.hidden = true;
-      player.removeAttribute("src");
-      fallback.hidden = false;
-    }
-  } else {
-    player.hidden = false;
-    fallback.hidden = true;
-    player.src = youtubeEmbed(video.youtubeId);
-  }
-
-  document.querySelectorAll(".video-card").forEach((card, index) => {
-    card.classList.toggle("is-active", index === state.activeIndex);
-  });
-}
-
-function renderSeries() {
-  const groups = videos.reduce((result, video) => {
-    result[video.series] = result[video.series] || [];
-    result[video.series].push(video);
-    return result;
-  }, {});
-
-  seriesGrid.innerHTML = Object.entries(groups)
-    .map(
-      ([name, items]) => `
-        <article class="series-card">
-          <p class="series-count">${items.length} 首作品</p>
-          <h3>${name}</h3>
-          <p>${seriesDescriptions[name] || "钛唇工作室原创音乐系列。"}</p>
-        </article>
-      `,
-    )
-    .join("");
-}
-
-function renderVideos() {
-  videoGrid.innerHTML = videos
-    .map(
-      (video, index) => `
-        <button class="video-card" type="button" data-index="${index}">
-          <img src="https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg" alt="">
-          <span class="video-card-body">
-            <span class="series-label">${video.series}</span>
-            <h3>${video.title}</h3>
-            <p>${video.description}</p>
-          </span>
-        </button>
-      `,
-    )
-    .join("");
-
-  document.querySelectorAll(".video-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      state.activeIndex = Number(card.dataset.index);
-      renderActiveVideo();
-      document.querySelector("#player-title").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
+  renderShelves();
 }
 
 async function detectPlatform() {
@@ -232,6 +303,6 @@ platformButtons.forEach((button) => {
   button.addEventListener("click", () => applyPlatform(button.dataset.platform));
 });
 
-renderSeries();
-renderVideos();
+renderShelves();
+renderCompactList();
 detectPlatform();
