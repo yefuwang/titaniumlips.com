@@ -578,7 +578,32 @@ h1 {
   min-height: 112px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 9px;
+  position: relative;
+  overflow: hidden;
+}
+
+.channel-links a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 42%);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.channel-links a:hover::after {
+  opacity: 1;
+}
+
+.channel-logo {
+  width: 52px;
+  height: 38px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 10px 22px rgba(0, 0, 0, 0.48))
+    drop-shadow(0 0 18px rgba(255, 79, 163, 0.18));
 }
 
 .channel-links strong {
