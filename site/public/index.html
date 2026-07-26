@@ -12,11 +12,14 @@
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
+    <div class="site-shell" aria-hidden="true"></div>
     <header class="site-header">
       <a class="brand-link" href="/" aria-label="钛唇工作室首页">
         <img src="/assets/brand/TitanLogo.png" alt="钛唇工作室" class="brand-mark">
+        <span>钛唇工作室</span>
       </a>
       <nav class="top-nav" aria-label="主要导航">
+        <a href="#player-title">播放</a>
         <a href="#series">系列</a>
         <a href="#videos">音乐视频</a>
         <a href="#channels">频道</a>
@@ -26,23 +29,32 @@
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">Titan Lips Studio</p>
+          <p class="eyebrow">Original Chinese Music</p>
           <h1 id="hero-title">钛唇工作室</h1>
-          <p class="hero-line">原创中文音乐，暗色叙事，粉色电光。</p>
+          <p class="hero-line">把末日、情歌和人间噪音唱成粉色金属。</p>
           <div class="hero-actions" aria-label="频道链接">
-            <a href="https://www.youtube.com/@%E9%92%9B%E5%94%87" rel="noreferrer" target="_blank">YouTube</a>
-            <a href="https://space.bilibili.com/3706968275421396" rel="noreferrer" target="_blank">Bilibili</a>
+            <a href="#player-title">播放最新作品</a>
+            <a href="#videos">查看歌单</a>
           </div>
         </div>
         <div class="hero-art" aria-hidden="true">
-          <img src="/assets/brand/TitanLogo.png" alt="">
+          <div class="poster-plate">
+            <img src="/assets/brand/TitanLogo.png" alt="">
+          </div>
+          <div class="lyric-reel">
+            <span>安静的寄生虫</span>
+            <span>安静破蛹</span>
+            <span>末日同谋</span>
+            <span>挪威的黑暗森林</span>
+            <span>后来就算了</span>
+          </div>
         </div>
       </section>
 
       <section class="listen-panel" aria-labelledby="player-title">
         <div class="section-heading">
           <p class="eyebrow">Now Playing</p>
-          <h2 id="player-title">音乐视频</h2>
+          <h2 id="player-title">播放台</h2>
         </div>
 
         <div class="platform-row">
@@ -71,6 +83,13 @@
             <p class="series-label" id="active-series"></p>
             <h3 id="active-title"></h3>
             <p id="active-description"></p>
+            <div class="signal-meter" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
             <div class="track-links">
               <a id="youtube-link" rel="noreferrer" target="_blank">YouTube</a>
               <a id="bilibili-link" rel="noreferrer" target="_blank">Bilibili</a>
