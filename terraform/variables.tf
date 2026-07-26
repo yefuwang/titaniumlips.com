@@ -33,3 +33,9 @@ variable "github_repository" {
   type        = string
   default     = "titaniumlips.com"
 }
+
+variable "email_forward_destination" {
+  description = "Destination address for Cloudflare Email Routing catch-all forwarding."
+  type        = string
+  default     = "yefuwang@gmail.com"
+}
