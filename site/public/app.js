@@ -8,14 +8,14 @@ const videos = [
     title: "安静的寄生虫",
     youtubeId: "TiVh7fJo49c",
     bvid: "BV1vAQKBKE44",
-    series: "末日系列",
+    series: "抑郁与治愈",
     description: "写给抑郁与崩溃边缘的暗黑伤感歌。",
   },
   {
     title: "安静破蛹",
     youtubeId: "nky5alhZTu4",
     bvid: "BV1EoRABVEQC",
-    series: "末日系列",
+    series: "抑郁与治愈",
     description: "我把自己从泥里拾捡，亲手还给了人间。",
   },
   {
@@ -77,9 +77,13 @@ const videos = [
 ];
 
 const seriesMeta = {
+  "抑郁与治愈": {
+    mood: "崩溃 / 拾捡 / 复原",
+    description: "写给抑郁、破碎和自我修复。不是轻飘飘的安慰，而是从泥里把自己捡回来。",
+  },
   "末日系列": {
-    mood: "废墟 / 寄生 / 破蛹",
-    description: "把末日当作情绪现场，也当作重生的入口。",
+    mood: "废墟 / 同谋 / 摇篮曲",
+    description: "把末日当作情绪现场：废墟尽头的相遇、互相放过，以及孩子的摇篮曲。",
   },
   "黑色寓言": {
     mood: "森林 / 童话 / 暗面",
