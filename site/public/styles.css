@@ -317,9 +317,11 @@ h1 {
 .series-shelves {
   display: grid;
   gap: 42px;
+  min-width: 0;
 }
 
 .series-shelf {
+  min-width: 0;
   border-top: 1px solid var(--line);
   padding-top: 24px;
 }
@@ -346,6 +348,9 @@ h1 {
 }
 
 .video-row {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(250px, 310px);
