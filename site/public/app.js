@@ -40,6 +40,13 @@ const videos = [
     description: "一首走进黑暗森林的原创音乐视频。",
   },
   {
+    title: "灵长类的獠牙",
+    youtubeId: "nphbHE5JY90",
+    bvid: "BV1F1gU6AEdp",
+    series: "黑色寓言",
+    description: "把温顺与獠牙写进同一则黑色寓言。",
+  },
+  {
     title: "生活不止眼前的苟且吗",
     youtubeId: "JD1We7861q0",
     bvid: "BV1WuGv6TEsD",
