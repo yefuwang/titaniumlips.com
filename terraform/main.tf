@@ -64,7 +64,6 @@ resource "cloudflare_dns_record" "www" {
 
 resource "cloudflare_email_routing_dns" "primary" {
   zone_id = var.cloudflare_zone_id
-  name    = var.domain_name
 }
 
 resource "cloudflare_email_routing_address" "forward_destination" {
