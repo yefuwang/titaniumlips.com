@@ -81,6 +81,13 @@ const videos = [
     series: "人间噪音",
     description: "原创苦情歌，动态歌词版。",
   },
+  {
+    title: "借我一场遗忘",
+    youtubeId: "LybOmpcaKeA",
+    bvid: "BV1mAg36KEpv",
+    series: "人间噪音",
+    description: "若爱过的人都该清空，那几年算什么时光。",
+  },
 ];
 
 const seriesMeta = {
